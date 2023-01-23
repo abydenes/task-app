@@ -38,6 +38,13 @@ class App extends React.Component {
     });
   };
 
+  onClickDelete = (e) => {
+    const value = e.target.parentElement.parentElement.textContent;
+    this.setState({
+      tasks: this.state.tasks.filter((x) => x.text !== value),
+    });
+  };
+
   render() {
     return (
       <div>
@@ -52,7 +59,10 @@ class App extends React.Component {
           </label>
           <button onClick={this.onSubmitTask}>Submit Task</button>
         </form>
-        <Overview tasks={this.state.tasks} />
+        <Overview
+          tasks={this.state.tasks}
+          handleDelete={(e) => this.onClickDelete(e)}
+        />
       </div>
     );
   }
