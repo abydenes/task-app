@@ -10,6 +10,7 @@ class App extends React.Component {
       newTask: {
         text: "",
         id: uniqid(),
+        step: 0,
       },
     };
     this.onSubmitTask = this.onSubmitTask.bind(this);
@@ -20,6 +21,7 @@ class App extends React.Component {
       newTask: {
         text: e.target.value,
         id: this.state.newTask.id,
+        step: this.state.tasks.length,
       },
     });
   };
@@ -31,6 +33,7 @@ class App extends React.Component {
       newTask: {
         text: "",
         id: uniqid(),
+        step: this.state.tasks.length + 1,
       },
     });
   };
@@ -40,7 +43,7 @@ class App extends React.Component {
       <div>
         <form>
           <label>
-            Name:
+            Task:
             <input
               type="text"
               value={this.state.newTask.text}
