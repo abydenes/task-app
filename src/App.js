@@ -13,7 +13,6 @@ class App extends React.Component {
         step: 0,
       },
     };
-    this.onSubmitTask = this.onSubmitTask.bind(this);
   }
 
   handleChange = (e) => {
