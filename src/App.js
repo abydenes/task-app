@@ -1,6 +1,7 @@
 import React from "react";
 import Overview from "./components/Overview";
 import uniqid from "uniqid";
+import "./App.css";
 
 class App extends React.Component {
   constructor() {
@@ -10,7 +11,6 @@ class App extends React.Component {
       newTask: {
         text: "",
         id: uniqid(),
-        step: 0,
       },
     };
     this.handleChange = this.handleChange.bind(this);
@@ -23,25 +23,27 @@ class App extends React.Component {
       newTask: {
         text: e.target.value,
         id: this.state.newTask.id,
-        step: this.state.tasks.length,
       },
     });
   }
 
   onSubmitTask(e) {
     e.preventDefault();
+    if (this.state.tasks.some((x) => x.text === this.state.newTask.text)) {
+      return;
+    }
     this.setState({
       tasks: this.state.tasks.concat(this.state.newTask),
       newTask: {
         text: "",
         id: uniqid(),
-        step: this.state.tasks.length + 1,
       },
     });
   }
 
   onClickDelete(e) {
-    const value = e.target.parentElement.parentElement.textContent;
+    const value =
+      e.target.parentElement.previousElementSibling.childNodes[1].textContent;
     this.setState({
       tasks: this.state.tasks.filter((x) => x.text !== value),
     });
@@ -49,17 +51,18 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <form>
+      <div className="main-container">
+        <form onSubmit={this.onSubmitTask}>
           <label>
-            Task:
             <input
               type="text"
               value={this.state.newTask.text}
               onChange={this.handleChange}
+              placeholder="enter task name"
+              required
             />
           </label>
-          <button onClick={this.onSubmitTask}>Submit Task</button>
+          <button>Submit Task</button>
         </form>
         <Overview
           tasks={this.state.tasks}

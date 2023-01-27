@@ -4,14 +4,14 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function Overview({ tasks, handleDelete }) {
   return (
-    <ul>
-      {tasks.map((task) => (
+    <ul className="overview">
+      {tasks.map((task, index) => (
         <li key={task.id}>
-          {task.step}
           <span>
+            <b>{index + 1}-</b>
             {task.text}
-            <FontAwesomeIcon icon={faTrash} onClick={handleDelete} />
           </span>
+          <FontAwesomeIcon icon={faTrash} onClick={handleDelete} />
         </li>
       ))}
     </ul>
