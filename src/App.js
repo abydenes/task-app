@@ -16,6 +16,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmitTask = this.onSubmitTask.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
   }
 
   handleChange(e) {
@@ -41,9 +42,7 @@ class App extends React.Component {
     });
   }
 
-  onClickDelete(e) {
-    const value =
-      e.target.parentElement.previousElementSibling.childNodes[1].textContent;
+  onClickDelete(value) {
     this.setState({
       tasks: this.state.tasks.filter((x) => x.text !== value),
     });
@@ -64,10 +63,7 @@ class App extends React.Component {
           </label>
           <button>Submit Task</button>
         </form>
-        <Overview
-          tasks={this.state.tasks}
-          handleDelete={(e) => this.onClickDelete(e)}
-        />
+        <Overview tasks={this.state.tasks} handleDelete={this.onClickDelete} />
       </div>
     );
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-export default function Overview({ tasks, handleDelete }) {
+export default function Overview({ tasks, handleDelete, handleEdit }) {
   return (
     <ul className="overview">
       {tasks.map((task, index) => (
@@ -11,7 +11,13 @@ export default function Overview({ tasks, handleDelete }) {
             <b>{index + 1}-</b>
             {task.text}
           </span>
-          <FontAwesomeIcon icon={faTrash} onClick={handleDelete} />
+          <div className="edit-and-delete">
+            <FontAwesomeIcon
+              icon={faEdit}
+              onClick={() => handleEdit(task.text)}
+            />
+            <FontAwesomeIcon icon={faTrash} />
+          </div>
         </li>
       ))}
     </ul>
