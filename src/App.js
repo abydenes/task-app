@@ -13,9 +13,12 @@ class App extends React.Component {
         step: 0,
       },
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmitTask = this.onSubmitTask.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
 
-  handleChange = (e) => {
+  handleChange(e) {
     this.setState({
       newTask: {
         text: e.target.value,
@@ -23,9 +26,9 @@ class App extends React.Component {
         step: this.state.tasks.length,
       },
     });
-  };
+  }
 
-  onSubmitTask = (e) => {
+  onSubmitTask(e) {
     e.preventDefault();
     this.setState({
       tasks: this.state.tasks.concat(this.state.newTask),
@@ -35,14 +38,14 @@ class App extends React.Component {
         step: this.state.tasks.length + 1,
       },
     });
-  };
+  }
 
-  onClickDelete = (e) => {
+  onClickDelete(e) {
     const value = e.target.parentElement.parentElement.textContent;
     this.setState({
       tasks: this.state.tasks.filter((x) => x.text !== value),
     });
-  };
+  }
 
   render() {
     return (
