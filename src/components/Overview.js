@@ -21,7 +21,7 @@ export default function Overview({
                 value={task.text}
                 onChange={(e) => handleEditChange(index, e)}
               />
-              <button onClick={finishEdit}>Finish Editing</button>
+              <button onClick={finishEdit}>submit</button>
             </>
           ) : (
             <span>
