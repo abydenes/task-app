@@ -17,6 +17,8 @@ class App extends React.Component {
     this.onSubmitTask = this.onSubmitTask.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.finishEdit = this.finishEdit.bind(this);
   }
 
   handleChange(e) {
@@ -39,7 +41,23 @@ class App extends React.Component {
         text: "",
         id: uniqid(),
       },
+      editing: null,
     });
+  }
+
+  onClickEdit(index) {
+    this.setState({ editing: index });
+  }
+
+  handleEdit(index, e) {
+    e.preventDefault();
+    const tasks = this.state.tasks;
+    tasks[index].text = e.target.value;
+    this.setState({ tasks });
+  }
+
+  finishEdit() {
+    this.setState({ editing: null });
   }
 
   onClickDelete(value) {
@@ -63,7 +81,14 @@ class App extends React.Component {
           </label>
           <button>Submit Task</button>
         </form>
-        <Overview tasks={this.state.tasks} handleDelete={this.onClickDelete} />
+        <Overview
+          tasks={this.state.tasks}
+          handleDelete={this.onClickDelete}
+          handleEdit={this.onClickEdit}
+          editing={this.state.editing}
+          handleEditChange={this.handleEdit}
+          finishEdit={this.finishEdit}
+        />
       </div>
     );
   }
