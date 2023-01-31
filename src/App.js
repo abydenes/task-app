@@ -14,6 +14,7 @@ function App() {
   function handleChange(e) {
     setNewTask({
       text: e.target.value,
+      id: uniqid(),
     });
   }
 
