@@ -1,97 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import Overview from "./components/Overview";
 import uniqid from "uniqid";
 import "./App.css";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      tasks: [],
-      newTask: {
-        text: "",
-        id: uniqid(),
-      },
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.onSubmitTask = this.onSubmitTask.bind(this);
-    this.onClickDelete = this.onClickDelete.bind(this);
-    this.onClickEdit = this.onClickEdit.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.finishEdit = this.finishEdit.bind(this);
-  }
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState({
+    text: "",
+    id: uniqid(),
+  });
+  const [editing, setEditing] = useState(null);
 
-  handleChange(e) {
-    this.setState({
-      newTask: {
-        text: e.target.value,
-        id: this.state.newTask.id,
-      },
+  function handleChange(e) {
+    setNewTask({
+      text: e.target.value,
     });
   }
 
-  onSubmitTask(e) {
+  function onSubmitTask(e) {
     e.preventDefault();
-    if (this.state.tasks.some((x) => x.text === this.state.newTask.text)) {
+    if (tasks.some((x) => x.text === newTask.text)) {
       return;
     }
-    this.setState({
-      tasks: this.state.tasks.concat(this.state.newTask),
-      newTask: {
-        text: "",
-        id: uniqid(),
-      },
-      editing: null,
+    setTasks(tasks.concat(newTask));
+    setNewTask({
+      text: "",
+      id: uniqid(),
     });
   }
 
-  onClickEdit(index) {
-    this.setState({ editing: index });
+  function onClickEdit(index) {
+    setEditing(index);
   }
 
-  handleEdit(index, e) {
+  function handleEdit(index, e) {
     e.preventDefault();
-    const tasks = this.state.tasks;
-    tasks[index].text = e.target.value;
-    this.setState({ tasks });
+    const tasksCopy = tasks.slice();
+    tasksCopy[index].text = e.target.value;
+    setTasks(tasksCopy);
   }
 
-  finishEdit() {
-    this.setState({ editing: null });
+  function finishEdit() {
+    setEditing(null);
   }
 
-  onClickDelete(value) {
-    this.setState({
-      tasks: this.state.tasks.filter((x) => x.text !== value),
-    });
+  function onClickDelete(value) {
+    setTasks(tasks.filter((x) => x.text !== value));
   }
 
-  render() {
-    return (
-      <div className="main-container">
-        <form onSubmit={this.onSubmitTask}>
-          <label>
-            <input
-              type="text"
-              value={this.state.newTask.text}
-              onChange={this.handleChange}
-              placeholder="enter task name"
-              required
-            />
-          </label>
-          <button>Submit Task</button>
-        </form>
-        <Overview
-          tasks={this.state.tasks}
-          handleDelete={this.onClickDelete}
-          handleEdit={this.onClickEdit}
-          editing={this.state.editing}
-          handleEditChange={this.handleEdit}
-          finishEdit={this.finishEdit}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="main-container">
+      <form onSubmit={onSubmitTask}>
+        <label>
+          <input
+            type="text"
+            value={newTask.text}
+            onChange={handleChange}
+            placeholder="enter task name"
+            required
+          />
+        </label>
+        <button>Submit Task</button>
+      </form>
+      <Overview
+        tasks={tasks}
+        handleDelete={onClickDelete}
+        handleEdit={onClickEdit}
+        editing={editing}
+        handleEditChange={handleEdit}
+        finishEdit={finishEdit}
+      />
+    </div>
+  );
 }
 
 export default App;
