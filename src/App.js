@@ -9,6 +9,7 @@ function App() {
     text: "",
     id: uniqid(),
   });
+  const [editing, setEditing] = useState(null);
 
   function handleChange(e) {
     setNewTask({
@@ -16,45 +17,40 @@ function App() {
     });
   }
 
-  // function onSubmitTask(e) {
-  //   e.preventDefault();
-  //   if (this.state.tasks.some((x) => x.text === this.state.newTask.text)) {
-  //     return;
-  //   }
-  //   this.setState({
-  //     tasks: this.state.tasks.concat(this.state.newTask),
-  //     newTask: {
-  //       text: "",
-  //       id: uniqid(),
-  //     },
-  //     editing: null,
-  //   });
-  // }
+  function onSubmitTask(e) {
+    e.preventDefault();
+    if (tasks.some((x) => x.text === newTask.text)) {
+      return;
+    }
+    setTasks(tasks.concat(newTask));
+    setNewTask({
+      text: "",
+      id: uniqid(),
+    });
+  }
 
-  // function onClickEdit(index) {
-  //   this.setState({ editing: index });
-  // }
+  function onClickEdit(index) {
+    setEditing(index);
+  }
 
-  // function handleEdit(index, e) {
-  //   e.preventDefault();
-  //   const tasks = this.state.tasks;
-  //   tasks[index].text = e.target.value;
-  //   this.setState({ tasks });
-  // }
+  function handleEdit(index, e) {
+    e.preventDefault();
+    const tasksCopy = tasks.slice();
+    tasksCopy[index].text = e.target.value;
+    setTasks(tasksCopy);
+  }
 
-  // function finishEdit() {
-  //   this.setState({ editing: null });
-  // }
+  function finishEdit() {
+    setEditing(null);
+  }
 
-  // function onClickDelete(value) {
-  //   this.setState({
-  //     tasks: this.state.tasks.filter((x) => x.text !== value),
-  //   });
-  // }
+  function onClickDelete(value) {
+    setTasks(tasks.filter((x) => x.text !== value));
+  }
 
   return (
     <div className="main-container">
-      <form >
+      <form onSubmit={onSubmitTask}>
         <label>
           <input
             type="text"
@@ -66,14 +62,14 @@ function App() {
         </label>
         <button>Submit Task</button>
       </form>
-      {/* <Overview
-        tasks={this.state.tasks}
-        handleDelete={this.onClickDelete}
-        handleEdit={this.onClickEdit}
-        editing={this.state.editing}
-        handleEditChange={this.handleEdit}
-        finishEdit={this.finishEdit}
-      /> */}
+      <Overview
+        tasks={tasks}
+        handleDelete={onClickDelete}
+        handleEdit={onClickEdit}
+        editing={editing}
+        handleEditChange={handleEdit}
+        finishEdit={finishEdit}
+      />
     </div>
   );
 }
